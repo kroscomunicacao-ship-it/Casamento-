@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#0f0d0b"/>
+<title>Bruno & Stephanie 💍</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0f0d0b; --surface: #1a1612; --card: #201c17; --border: #2e2820;
+    --gold: #c9a84c; --rose: #c97a8a; --cream: #f0e6d3; --muted: #7a6a55;
+    --green: #6ab89a; --red: #c97070;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--cream); font-family: 'Cormorant Garamond', serif; min-height: 100vh; padding-bottom: 80px; }
+  ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: var(--border); }
+  input, textarea, button { font-family: 'Cormorant Garamond', serif; }
+  button { cursor: pointer; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .fade { animation: fadeIn .35s ease; }
+  #header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+  #header-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 18px; letter-spacing: 1px; }
+  #save-status { font-size: 12px; }
+  #nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+  #nav::-webkit-scrollbar { display: none; }
+  .nav-btn { flex: 1; min-width: 72px; padding: 11px 6px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.5px; transition: all .2s; white-space: nowrap; }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .nav-icon { font-size: 15px; margin-bottom: 3px; }
+  #content { padding: 22px 16px; max-width: 780px; margin: 0 auto; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .card-accent-gold { border-top: 3px solid var(--gold); }
+  .card-accent-rose { border-top: 3px solid var(--rose); }
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 10px; text-align: center; }
+  .stat-val { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 600; line-height: 1; }
+  .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .countdown { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cd-box { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; min-width: 60px; }
+  .cd-val { font-family: 'Cinzel', serif; font-size: 26px; color: var(--gold); line-height: 1; }
+  .cd-lbl { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .badge { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+  .prog-wrap { background: var(--border); border-radius: 4px; height: 6px; margin: 6px 0 16px; }
+  .prog-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--rose)); transition: width .5s; }
+  .check-item { display: flex; align-items: center; gap: 10px; padding: 9px 11px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; transition: opacity .2s; }
+  .check-item.done { opacity: .55; }
+  .check-item.urgent { border-left: 3px solid var(--red); }
+  .check-item.normal { border-left: 3px solid var(--border); }
+  .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--muted); background: transparent; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+  .check-box.checked { background: var(--green); border-color: var(--green); }
+  .check-text { flex: 1; font-size: 15px; }
+  .check-text.striked { text-decoration: line-through; color: var(--muted); }
+  .del-btn { background: none; border: none; color: var(--muted); font-size: 18px; padding: 0 4px; }
+  .guest-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .guest-name { flex: 1; font-size: 16px; }
+  .icon-btn { width: 28px; height: 28px; border-radius: 7px; border: none; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+  .shop-item { display: flex; align-items: center; gap: 8px; padding: 9px 11px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .price-input { width: 72px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--green); padding: 4px 7px; font-size: 14px; font-family: inherit; outline: none; text-align: right; }
+  .vow-card { border-radius: 16px; padding: 28px; text-align: center; cursor: pointer; transition: all .3s; border: 2px solid var(--border); }
+  .timeline-wrap { position: relative; padding-left: 22px; }
+  .timeline-line { position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; position: relative; }
+  .tl-dot { position: absolute; left: -18px; top: 11px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg); }
+  .tl-card { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .tl-time { font-family: 'Cinzel', serif; color: var(--gold); font-size: 14px; margin-bottom: 2px; }
+  .tl-text { font-size: 16px; }
+  .inp { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--cream); padding: 8px 12px; font-size: 15px; outline: none; width: 100%; }
+  .inp:focus { border-color: var(--gold); }
+  .inp-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .btn { background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.4); border-radius: 8px; padding: 8px 16px; font-size: 14px; font-weight: 600; font-family: 'Cinzel', serif; letter-spacing: 0.3px; transition: all .2s; }
+  .btn.sm { padding: 5px 12px; font-size: 12px; }
+  .btn.rose { background: rgba(201,122,138,.15); color: var(--rose); border-color: rgba(201,122,138,.4); }
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-btn { background: rgba(122,106,85,.12); color: var(--muted); border: 1px solid rgba(122,106,85,.3); border-radius: 20px; padding: 4px 13px; font-size: 12px; font-family: inherit; transition: all .2s; }
+  .filter-btn.active { background: rgba(201,168,76,.2); color: var(--gold); border-color: rgba(201,168,76,.5); }
+  .urgent-alert { background: rgba(201,112,112,.1); border: 1px solid rgba(201,112,112,.3); border-radius: 12px; padding: 14px; margin-bottom: 20px; }
+  .urgent-title { color: var(--red); font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; margin-bottom: 8px; }
+  .urgent-item { font-size: 14px; padding: 3px 0; border-bottom: 1px solid rgba(201,112,112,.15); }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+  .tip-item { font-size: 14px; color: var(--cream); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+  #loading { display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; gap: 12px; }
+  #loading h2 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 24px; }
+  #loading p { color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+<div id="loading"><h2>Bruno & Stephanie</h2><p>Carregando... 💍</p></div>
+<div id="app" style="display:none">
+  <div id="header"><span id="header-title">B & S ♥</span><span id="save-status" style="color:var(--green)">✓ Salvo</span></div>
+  <div id="nav"></div>
+  <div id="content"></div>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDr6D6QkjnNM-0Hvl_nvCUl9zWopSGeu7M",
+  authDomain: "casamento-fbddd.firebaseapp.com",
+  projectId: "casamento-fbddd",
+  storageBucket: "casamento-fbddd.firebasestorage.app",
+  messagingSenderId: "975889260242",
+  appId: "1:975889260242:web:7c0f373febe7488bd8570b"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const DOC = doc(db, "wedding", "data");
+const WEDDING_DATE = new Date("2026-04-08T11:00:00");
+
+const INITIAL = {
+  guests: {
+    bruno: [
+      {id:"b1",name:"Éder",invite:false},{id:"b2",name:"Patrícia",invite:false},{id:"b3",name:"Guilherme Faro",invite:false},
+      {id:"b4",name:"Ana",invite:false},{id:"b5",name:"Matheus",invite:false},{id:"b6",name:"Larissa",invite:false},
+      {id:"b7",name:"David",invite:false},{id:"b8",name:"Edenize",invite:false},{id:"b9",name:"José Luiz",invite:false},
+    ],
+    stephanie: [
+      {id:"s1",name:"Marcelo",invite:false},{id:"s2",name:"Débora",invite:false},{id:"s3",name:"Tiel",invite:false},
+      {id:"s4",name:"Marta",invite:false},{id:"s5",name:"Marina",invite:false},{id:"s6",name:"Fátima",invite:false},{id:"s7",name:"Zeza",invite:false},
+    ],
+  },
+  guestStatuses: {},
+  checklist: [
+    {id:"c1",text:"Agendar casamento civil no cartório",cat:"Documentos",urgent:true,done:false},
+    {id:"c2",text:"Separar documentos (RG, CPF, certidão de nascimento, 2 testemunhas)",cat:"Documentos",urgent:true,done:false},
+    {id:"c3",text:"Confirmar data/horário com o celebrante",cat:"Cerimônia",urgent:true,done:false},
+    {id:"c4",text:"Comprar alianças",cat:"Compras",urgent:true,done:false},
+    {id:"c5",text:"Encomendar o bolo",cat:"Compras",urgent:true,done:false},
+    {id:"c6",text:"Comprar ou encomendar buquê",cat:"Flores",urgent:true,done:false},
+    {id:"c7",text:"Confirmar com o buffet/espaço — Rua Amapá 116",cat:"Fornecedores",urgent:true,done:true},
+    {id:"c8",text:"Confirmar com a decoração",cat:"Fornecedores",urgent:true,done:true},
+    {id:"c9",text:"Confirmar entrega dos convites",cat:"Convites",urgent:true,done:true},
+    {id:"c10",text:"Stephanie criar playlist no Spotify (cerimônia + festa)",cat:"Música",urgent:true,done:false},
+    {id:"c11",text:"Testar caixa JBL — carga, volume e conexão",cat:"Música",urgent:true,done:false},
+    {id:"c12",text:"Agendar maquiagem e cabelo da noiva",cat:"Beleza",urgent:true,done:false},
+    {id:"c13",text:"Vestido da noiva — última prova/ajuste",cat:"Vestuário",urgent:true,done:false},
+    {id:"c14",text:"Traje do noivo — confirmar ou comprar",cat:"Vestuário",urgent:true,done:false},
+    {id:"c15",text:"Definir/confirmar roupa dos padrinhos e madrinhas",cat:"Vestuário",urgent:true,done:false},
+    {id:"c16",text:"Fotógrafo — contratar ou definir alguém de confiança",cat:"Fornecedores",urgent:true,done:false},
+    {id:"c17",text:"Preparar bem-casados ou lembrancinhas",cat:"Recepção",urgent:false,done:false},
+    {id:"c18",text:"Definir cardápio com buffet",cat:"Recepção",urgent:false,done:false},
+    {id:"c19",text:"Organizar carro/transporte para o casal",cat:"Logística",urgent:false,done:false},
+    {id:"c20",text:"Preparar cerimônia dos votos (ordem, quem fala)",cat:"Cerimônia",urgent:false,done:false},
+    {id:"c21",text:"Definir entrada da noiva e cortejo",cat:"Cerimônia",urgent:false,done:false},
+    {id:"c22",text:"Comprar acessórios da noiva (véu, tiara, brincos etc.)",cat:"Vestuário",urgent:false,done:false},
+    {id:"c23",text:"Preparar kit emergência (agulha, fita, remédios, alfinetes)",cat:"Logística",urgent:false,done:false},
+    {id:"c24",text:"Planejar lua de mel / viagem pós-casamento",cat:"Pós-casamento",urgent:false,done:false},
+    {id:"c25",text:"Avisar convidados sobre estacionamento / como chegar",cat:"Logística",urgent:false,done:false},
+    {id:"c26",text:"Definir quem recebe os presentes no dia",cat:"Logística",urgent:false,done:false},
+    {id:"c27",text:"Preparar brinde / discurso",cat:"Cerimônia",urgent:false,done:false},
+  ],
+  shopping: [
+    {id:"sh1",text:"Alianças",cat:"Joalheria",value:"",done:false},
+    {id:"sh2",text:"Buquê da noiva",cat:"Flores",value:"",done:false},
+    {id:"sh3",text:"Bolo de casamento",cat:"Alimentação",value:"",done:false},
+    {id:"sh4",text:"Traje do noivo",cat:"Vestuário",value:"",done:false},
+    {id:"sh5",text:"Acessórios da noiva (véu, tiara etc.)",cat:"Vestuário",value:"",done:false},
+    {id:"sh6",text:"Sapatos da noiva",cat:"Vestuário",value:"",done:false},
+    {id:"sh7",text:"Bem-casados / lembrancinhas",cat:"Recepção",value:"",done:false},
+    {id:"sh8",text:"Decoração extra (velas, arranjos)",cat:"Decoração",value:"",done:false},
+    {id:"sh9",text:"Kit emergência noiva",cat:"Outros",value:"",done:false},
+    {id:"sh10",text:"Caixinhas para bem-casados",cat:"Recepção",value:"",done:false},
+  ],
+  vows: { bruno: false, stephanie: false },
+  timeline: [
+    {id:"t1",time:"07:00",text:"Maquiagem e cabelo da noiva",done:false},
+    {id:"t2",time:"09:00",text:"Chegada ao espaço — decoração final",done:false},
+    {id:"t3",time:"09:30",text:"Noivo se arruma",done:false},
+    {id:"t4",time:"10:00",text:"Fotógrafo chega — fotos pré-cerimônia",done:false},
+    {id:"t5",time:"10:30",text:"Conectar JBL e testar playlist",done:false},
+    {id:"t6",time:"11:00",text:"Recepção — convidados chegam",done:false},
+    {id:"t7",time:"11:30",text:"Celebração religiosa",done:false},
+    {id:"t8",time:"12:30",text:"Sessão de fotos do casal",done:false},
+    {id:"t9",time:"13:00",text:"Festa — buffet aberto",done:false},
+    {id:"t10",time:"14:00",text:"Corte do bolo",done:false},
+    {id:"t11",time:"14:30",text:"Brinde oficial",done:false},
+    {id:"t12",time:"17:00",text:"Encerramento / despedida",done:false},
+  ],
+};
+
+let D = JSON.parse(JSON.stringify(INITIAL));
+let saveTimer = null;
+let currentTab = "home";
+let checkFilter = "all";
+
+function loadData() {
+  onSnapshot(DOC, (snap) => {
+    if (snap.exists()) {
+      D = Object.assign({}, INITIAL, snap.data());
+    } else {
+      setDoc(DOC, D);
+    }
+    const loading = document.getElementById("loading");
+    const app = document.getElementById("app");
+    if (loading.style.display !== "none") {
+      loading.style.display = "none";
+      app.style.display = "block";
+      renderNav();
+      startCountdown();
+    }
+    renderTab();
+  }, (e) => {
+    document.getElementById("loading").innerHTML = '<h2 style="color:var(--red)">Erro de conexão</h2><p style="color:var(--muted);margin-top:8px">Verifique sua internet</p>';
+  });
+}
+
+function scheduleSave() {
+  setSaveStatus("saving");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try { await setDoc(DOC, D); setSaveStatus("ok"); }
+    catch(e) { setSaveStatus("error"); }
+  }, 900);
+}
+
+function setSaveStatus(s) {
+  const el = document.getElementById("save-status");
+  if (s==="saving") { el.style.color="var(--gold)"; el.textContent="Salvando..."; }
+  else if (s==="ok") { el.style.color="var(--green)"; el.textContent="✓ Salvo"; }
+  else { el.style.color="var(--red)"; el.textContent="Erro ao salvar"; }
+}
+
+const uid = () => Math.random().toString(36).slice(2,9);
+
+function startCountdown() {
+  function tick() {
+    const diff = WEDDING_DATE - new Date();
+    const box = document.getElementById("countdown");
+    if (!box) return;
+    if (diff <= 0) { box.innerHTML='<span style="color:var(--gold);font-family:Cinzel,serif;font-size:20px">💍 Hoje é o grande dia!</span>'; return; }
+    const d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000),
+          m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    box.innerHTML=[[d,"dias"],[h,"horas"],[m,"min"],[s,"seg"]].map(([v,l])=>
+      `<div class="cd-box"><div class="cd-val">${String(v).padStart(2,"0")}</div><div class="cd-lbl">${l}</div></div>`
+    ).join("");
+  }
+  tick(); setInterval(tick,1000);
+}
+
+const TABS=[{id:"home",icon:"♥",label:"Início"},{id:"checklist",icon:"✓",label:"Tarefas"},
+  {id:"guests",icon:"👥",label:"Convidados"},{id:"shopping",icon:"🛒",label:"Compras"},
+  {id:"vows",icon:"💍",label:"Votos"},{id:"timeline",icon:"📅",label:"Dia D"}];
+
+function renderNav() {
+  const nav=document.getElementById("nav"); nav.innerHTML="";
+  TABS.forEach(t=>{
+    const btn=document.createElement("button");
+    btn.className="nav-btn"+(t.id===currentTab?" active":"");
+    btn.innerHTML=`<div class="nav-icon">${t.icon}</div>${t.label}`;
+    btn.onclick=()=>{ currentTab=t.id; renderNav(); renderTab(); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderTab() {
+  const c=document.getElementById("content");
+  c.className="fade"; c.innerHTML="";
+  if(currentTab==="home") renderHome(c);
+  else if(currentTab==="checklist") renderChecklist(c);
+  else if(currentTab==="guests") renderGuests(c);
+  else if(currentTab==="shopping") renderShopping(c);
+  else if(currentTab==="vows") renderVows(c);
+  else if(currentTab==="timeline") renderTimeline(c);
+}
+function renderHome(c) {
+  const doneC=D.checklist.filter(i=>i.done).length;
+  const urgentLeft=D.checklist.filter(i=>i.urgent&&!i.done).length;
+  const totalG=D.guests.bruno.length+D.guests.stephanie.length;
+  const confirmed=Object.values(D.guestStatuses).filter(s=>s==="confirmed").length;
+  const spent=D.shopping.reduce((a,i)=>a+(parseFloat((i.value||"0").replace(",","."))||0),0);
+  c.innerHTML=`
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-family:Cinzel,serif;font-size:12px;color:var(--muted);letter-spacing:4px;margin-bottom:6px">08 · ABRIL · 2026</div>
+      <h1 style="font-family:Cinzel,serif;font-size:30px;color:var(--gold);font-weight:600;margin-bottom:4px">Bruno & Stephanie</h1>
+      <div style="color:var(--muted);font-size:15px;font-style:italic;margin-bottom:22px">Contagem regressiva</div>
+      <div id="countdown" class="countdown"></div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" style="color:var(--gold)">${doneC}/${D.checklist.length}</div><div class="stat-lbl">Tarefas feitas</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:${urgentLeft>0?"var(--red)":"var(--green)"}">${urgentLeft}</div><div class="stat-lbl">Urgentes pendentes</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--rose)">${confirmed}/${totalG}</div><div class="stat-lbl">Confirmados</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:18px">R$${spent.toFixed(2).replace(".",",")}</div><div class="stat-lbl">Total em compras</div></div>
+    </div>
+    ${urgentLeft>0?`<div class="urgent-alert"><div class="urgent-title">⚠ PENDENTE — ATENÇÃO!</div>${D.checklist.filter(i=>i.urgent&&!i.done).map(i=>`<div class="urgent-item">· ${i.text}</div>`).join("")}</div>`
+    :`<div style="background:rgba(106,184,154,.1);border:1px solid rgba(106,184,154,.3);border-radius:12px;padding:14px;text-align:center;color:var(--green);font-family:Cinzel,serif;font-size:14px">🎉 Tudo urgente resolvido!</div>`}
+    <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:13px;color:var(--muted);font-style:italic">"Onde abundou o pecado, superabundou a graça."</div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:2px;margin-top:6px">ROMANOS 5:20</div>
+    </div>`;
+  startCountdown();
+}
+
+function renderChecklist(c) {
+  const done=D.checklist.filter(i=>i.done).length;
+  const pct=Math.round((done/D.checklist.length)*100);
+  const filtered=D.checklist.filter(i=>{
+    if(checkFilter==="all") return true;
+    if(checkFilter==="urgent") return i.urgent&&!i.done;
+    if(checkFilter==="pending") return !i.done;
+    if(checkFilter==="done") return i.done;
+  });
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <span style="color:var(--muted);font-size:13px">Progresso</span>
+      <span style="color:var(--gold);font-family:Cinzel,serif;font-size:13px">${done}/${D.checklist.length}</span>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    <div class="filters" id="filters"></div>
+    <div class="inp-row">
+      <input id="new-task" class="inp" style="flex:1;min-width:150px" placeholder="Nova tarefa..."/>
+      <button class="btn sm" id="add-task-btn">+ Adicionar</button>
+    </div>
+    <div id="task-list"></div>`;
+  c.appendChild(wrap);
+  const filtersEl=wrap.querySelector("#filters");
+  [["all","Todas"],["urgent","🔥 Urgente"],["pending","Pendentes"],["done","Feitas"]].forEach(([v,l])=>{
+    const b=document.createElement("button");
+    b.className="filter-btn"+(checkFilter===v?" active":""); b.textContent=l;
+    b.onclick=()=>{ checkFilter=v; renderTab(); };
+    filtersEl.appendChild(b);
+  });
+  wrap.querySelector("#add-task-btn").onclick=()=>{
+    const inp=wrap.querySelector("#new-task"); const txt=inp.value.trim();
+    if(!txt) return;
+    D.checklist.push({id:uid(),text:txt,cat:"Outros",urgent:false,done:false});
+    inp.value=""; scheduleSave(); renderTab();
+  };
+  const list=wrap.querySelector("#task-list");
+  filtered.forEach(item=>{
+    const row=document.createElement("div");
+    row.className="check-item "+(item.done?"done ":"")+(item.urgent?"urgent":"normal");
+    row.innerHTML=`<button class="check-box ${item.done?"checked":""}">${item.done?"✓":""}</button>
+      <span class="check-text ${item.done?"striked":""}">${item.text}</span>
+      <span class="badge" style="background:rgba(122,106,85,.15);color:var(--muted);font-size:10px">${item.cat}</span>
+      <button class="del-btn">×</button>`;
+    row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
+    row.querySelector(".del-btn").onclick=()=>{ D.checklist=D.checklist.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+    list.appendChild(row);
+  });
+}
+
+function renderGuests(c) {
+  const allGuests=[...D.guests.bruno,...D.guests.stephanie];
+  const totalG=allGuests.length;
+  const conf=Object.values(D.guestStatuses).filter(s=>s==="confirmed").length;
+  const decl=Object.values(D.guestStatuses).filter(s=>s==="declined").length;
+  const inviteSent=allGuests.filter(g=>g.invite).length;
+  const allInvited=inviteSent===totalG;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:10px">
+      <div class="stat-box"><div class="stat-val" style="color:var(--gold);font-size:20px">${totalG}</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:20px">${conf}</div><div class="stat-lbl">Confirmados</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--muted);font-size:20px">${totalG-conf-decl}</div><div class="stat-lbl">Pendentes</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--red);font-size:20px">${decl}</div><div class="stat-lbl">Recusaram</div></div>
+    </div>
+    <div style="background:${allInvited?"rgba(106,184,154,.12)":"var(--card)"};border:1px solid ${allInvited?"rgba(106,184,154,.4)":"var(--border)"};border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+      <div style="flex:1">
+        <div style="font-family:Cinzel,serif;font-size:12px;color:${allInvited?"var(--green)":"var(--gold)"};letter-spacing:1px;margin-bottom:5px">${allInvited?"✅ TODOS OS CONVITES ENVIADOS!":"✉ CONVITES ENVIADOS"}</div>
+        <div style="background:var(--border);border-radius:4px;height:6px">
+          <div style="width:${totalG>0?Math.round(inviteSent/totalG*100):0}%;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--green));transition:width .5s"></div>
+        </div>
+      </div>
+      <div style="font-family:Cinzel,serif;color:${allInvited?"var(--green)":"var(--gold)"};font-size:20px;font-weight:600">${inviteSent}/${totalG}</div>
+    </div>
+    <div class="two-col" id="guest-cols"></div>`;
+  c.appendChild(wrap);
+  [["bruno","🤵 Lado do Bruno","gold"],["stephanie","👰 Lado da Stephanie","rose"]].forEach(([side,label,color])=>{
+    const sideInvited=D.guests[side].filter(g=>g.invite).length;
+    const card=document.createElement("div");
+    card.className="card card-accent-"+color;
+    card.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-family:Cinzel,serif;color:var(--${color});font-size:15px">${label}</span>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="font-size:11px;color:var(--muted)">✉ ${sideInvited}/${D.guests[side].length}</span>
+          <span class="badge" style="background:rgba(201,168,76,.15);color:var(--${color})">${D.guests[side].length}</span>
+        </div>
+      </div>
+      <div id="glist-${side}"></div>
+      <div class="inp-row" style="margin-top:12px;margin-bottom:0">
+        <input id="gnew-${side}" class="inp" style="flex:1" placeholder="Nome..."/>
+        <button class="btn sm ${color==="rose"?"rose":""}" id="gadd-${side}">+</button>
+      </div>`;
+    wrap.querySelector("#guest-cols").appendChild(card);
+    const list=card.querySelector(`#glist-${side}`);
+    D.guests[side].forEach(g=>{
+      const st=D.guestStatuses[g.id]||"pending";
+      const stColor=st==="confirmed"?"var(--green)":st==="declined"?"var(--red)":"var(--muted)";
+      const stLabel=st==="confirmed"?"✓ Conf":st==="declined"?"✗ Recusou":"· Pendente";
+      const row=document.createElement("div"); row.className="guest-row";
+      row.innerHTML=`<span class="guest-name">${g.name}</span>
+        <button class="icon-btn" title="Convite enviado" style="background:${g.invite?"var(--gold)":"var(--border)"};font-size:12px" data-id="${g.id}" data-action="invite">✉</button>
+        <button class="icon-btn" style="background:${st==="confirmed"?"var(--green)":"var(--border)"}" data-id="${g.id}" data-action="confirmed">✓</button>
+        <button class="icon-btn" style="background:${st==="declined"?"var(--red)":"var(--border)"}" data-id="${g.id}" data-action="declined">✗</button>
+        <button class="icon-btn" style="background:var(--border);color:var(--muted)" data-id="${g.id}" data-action="delete">×</button>`;
+      row.querySelectorAll("[data-action]").forEach(btn=>{
+        btn.onclick=()=>{
+          const id=btn.dataset.id, action=btn.dataset.action;
+          if(action==="delete"){ D.guests[side]=D.guests[side].filter(x=>x.id!==id); delete D.guestStatuses[id]; }
+          else if(action==="invite"){ const gi=D.guests[side].findIndex(x=>x.id===id); if(gi>=0) D.guests[side][gi].invite=!D.guests[side][gi].invite; }
+          else { D.guestStatuses[id]=D.guestStatuses[id]===action?"pending":action; }
+          scheduleSave(); renderTab();
+        };
+      });
+      list.appendChild(row);
+    });
+    card.querySelector(`#gadd-${side}`).onclick=()=>{
+      const inp=card.querySelector(`#gnew-${side}`); const name=inp.value.trim();
+      if(!name) return;
+      D.guests[side].push({id:uid(),name,invite:false}); inp.value=""; scheduleSave(); renderTab();
+    };
+  });
+}
+
+function renderShopping(c) {
+  const total=D.shopping.reduce((a,i)=>a+(parseFloat((i.value||"0").replace(",","."))||0),0);
+  const bought=D.shopping.filter(i=>i.done).length;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="color:var(--muted);font-size:14px">${bought}/${D.shopping.length} itens comprados</div>
+      <div style="text-align:right">
+        <div style="font-family:Cinzel,serif;color:var(--green);font-size:22px">R$${total.toFixed(2).replace(".",",")}</div>
+        <div style="font-size:11px;color:var(--muted)">total estimado</div>
+      </div>
+    </div>
+    <div class="inp-row">
+      <input id="sh-new" class="inp" style="flex:2;min-width:130px" placeholder="Item..."/>
+      <input id="sh-cat" class="inp" style="flex:1;min-width:90px" placeholder="Categoria"/>
+      <button class="btn sm" id="sh-add">+ Adicionar</button>
+    </div>
+    <div id="sh-list"></div>`;
+  c.appendChild(wrap);
+  wrap.querySelector("#sh-add").onclick=()=>{
+    const txt=wrap.querySelector("#sh-new").value.trim();
+    const cat=wrap.querySelector("#sh-cat").value.trim()||"Outros";
+    if(!txt) return;
+    D.shopping.push({id:uid(),text:txt,cat,value:"",done:false});
+    wrap.querySelector("#sh-new").value=""; wrap.querySelector("#sh-cat").value="";
+    scheduleSave(); renderTab();
+  };
+  const list=wrap.querySelector("#sh-list");
+  D.shopping.forEach(item=>{
+    const row=document.createElement("div"); row.className="shop-item";
+    row.style.opacity=item.done?"0.55":"1";
+    row.innerHTML=`<button class="check-box ${item.done?"checked":""}">${item.done?"✓":""}</button>
+      <span style="flex:1;font-size:15px;${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</span>
+      <span class="badge" style="background:rgba(122,106,85,.15);color:var(--muted);font-size:10px">${item.cat}</span>
+      <span style="color:var(--muted);font-size:13px">R$</span>
+      <input class="price-input" value="${item.value}" placeholder="0,00"/>
+      <button class="del-btn">×</button>`;
+    row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
+    row.querySelector(".price-input").oninput=(e)=>{ item.value=e.target.value; scheduleSave(); };
+    row.querySelector(".del-btn").onclick=()=>{ D.shopping=D.shopping.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+    list.appendChild(row);
+  });
+}
+
+function renderVows(c) {
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <p style="color:var(--muted);font-style:italic;text-align:center;margin-bottom:24px;font-size:16px;line-height:1.8">
+      "Onde abundou o pecado,<br/>superabundou a graça."<br/>
+      <span style="font-size:12px;letter-spacing:2px">ROMANOS 5:20</span>
+    </p>
+    <div class="two-col" style="margin-bottom:20px">
+      ${[["bruno","💍 Votos do Bruno","gold"],["stephanie","💍 Votos da Stephanie","rose"]].map(([who,label,color])=>`
+        <div class="vow-card" id="vow-${who}" style="background:${D.vows[who]?"rgba(201,168,76,.1)":"var(--card)"};border-color:${D.vows[who]?"var(--"+color+")":"var(--border)"}">
+          <div style="font-size:48px;margin-bottom:10px">${D.vows[who]?"✅":"📝"}</div>
+          <div style="font-family:Cinzel,serif;color:var(--${color});font-size:16px;margin-bottom:8px">${label}</div>
+          <div style="font-size:15px;color:${D.vows[who]?"var(--"+color+")":"var(--muted)"}">${D.vows[who]?"Votos preparados! 🎉":"Toque para marcar como feito"}</div>
+        </div>`).join("")}
+    </div>
+    <div class="card">
+      <div style="color:var(--gold);font-family:Cinzel,serif;font-size:12px;letter-spacing:1px;margin-bottom:12px">💡 DICAS PARA OS VOTOS</div>
+      ${["Fale do primeiro momento que percebeu que era especial","Mencione uma qualidade que admira no outro","Faça uma promessa concreta e verdadeira","Pode ser curto — o que importa é ser sincero","Pratique em voz alta pelo menos uma vez antes","Leve escrito no dia, não confie só na memória!"].map(t=>`<div class="tip-item"><span style="color:var(--gold)">·</span>${t}</div>`).join("")}
+    </div>`;
+  c.appendChild(wrap);
+  ["bruno","stephanie"].forEach(who=>{
+    wrap.querySelector(`#vow-${who}`).onclick=()=>{ D.vows[who]=!D.vows[who]; scheduleSave(); renderTab(); };
+  });
+}
+
+function renderTimeline(c) {
+  const done=D.timeline.filter(i=>i.done).length;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <span style="color:var(--muted);font-size:14px">08/04/2026 · Água Rasa, SP</span>
+      <span class="badge" style="background:rgba(201,168,76,.15);color:var(--gold)">${done}/${D.timeline.length}</span>
+    </div>
+    <div class="inp-row">
+      <input type="time" id="tl-time" class="inp" style="width:110px;flex:none"/>
+      <input id="tl-text" class="inp" style="flex:1;min-width:140px" placeholder="Descrição..."/>
+      <button class="btn sm" id="tl-add">+ Adicionar</button>
+    </div>
+    <div class="timeline-wrap"><div class="timeline-line"></div><div id="tl-list"></div></div>`;
+  c.appendChild(wrap);
+  wrap.querySelector("#tl-add").onclick=()=>{
+    const t=wrap.querySelector("#tl-time").value, txt=wrap.querySelector("#tl-text").value.trim();
+    if(!t||!txt) return;
+    D.timeline.push({id:uid(),time:t,text:txt,done:false});
+    D.timeline.sort((a,b)=>a.time.localeCompare(b.time));
+    wrap.querySelector("#tl-time").value=""; wrap.querySelector("#tl-text").value="";
+    scheduleSave(); renderTab();
+  };
+  const list=wrap.querySelector("#tl-list");
+  D.timeline.forEach(item=>{
+    const row=document.createElement("div"); row.className="tl-item";
+    row.innerHTML=`<div class="tl-dot" style="background:${item.done?"var(--green)":"var(--gold)"}"></div>
+      <button class="check-box ${item.done?"checked":""}" style="margin-top:2px;flex-shrink:0">${item.done?"✓":""}</button>
+      <div class="tl-card" style="opacity:${item.done?.6:1}">
+        <div class="tl-time">${item.time}</div>
+        <div class="tl-text" style="${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</div>
+      </div>
+      <button class="del-btn" style="margin-top:8px">×</button>`;
+    row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
+    row.querySelector(".del-btn").onclick=()=>{ D.timeline=D.timeline.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+    list.appendChild(row);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>
