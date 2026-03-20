@@ -4,90 +4,102 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="theme-color" content="#0f0d0b"/>
+<meta name="theme-color" content="#fff8f2"/>
 <title>Bruno & Stephanie 💍</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #0f0d0b; --surface: #1a1612; --card: #201c17; --border: #2e2820;
-    --gold: #c9a84c; --rose: #c97a8a; --cream: #f0e6d3; --muted: #7a6a55;
-    --green: #6ab89a; --red: #c97070;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { background: var(--bg); color: var(--cream); font-family: 'Cormorant Garamond', serif; min-height: 100vh; padding-bottom: 80px; }
-  ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: var(--border); }
-  input, textarea, button { font-family: 'Cormorant Garamond', serif; }
-  button { cursor: pointer; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .fade { animation: fadeIn .35s ease; }
-  #header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-  #header-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 18px; letter-spacing: 1px; }
-  #save-status { font-size: 12px; }
-  #nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
-  #nav::-webkit-scrollbar { display: none; }
-  .nav-btn { flex: 1; min-width: 72px; padding: 11px 6px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.5px; transition: all .2s; white-space: nowrap; }
-  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-  .nav-icon { font-size: 15px; margin-bottom: 3px; }
-  #content { padding: 22px 16px; max-width: 780px; margin: 0 auto; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-  .card-accent-gold { border-top: 3px solid var(--gold); }
-  .card-accent-rose { border-top: 3px solid var(--rose); }
-  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-  .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 10px; text-align: center; }
-  .stat-val { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 600; line-height: 1; }
-  .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .countdown { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .cd-box { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; min-width: 60px; }
-  .cd-val { font-family: 'Cinzel', serif; font-size: 26px; color: var(--gold); line-height: 1; }
-  .cd-lbl { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
-  .badge { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
-  .prog-wrap { background: var(--border); border-radius: 4px; height: 6px; margin: 6px 0 16px; }
-  .prog-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--rose)); transition: width .5s; }
-  .check-item { display: flex; align-items: center; gap: 10px; padding: 9px 11px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; transition: opacity .2s; }
-  .check-item.done { opacity: .55; }
-  .check-item.urgent { border-left: 3px solid var(--red); }
-  .check-item.normal { border-left: 3px solid var(--border); }
-  .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--muted); background: transparent; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
-  .check-box.checked { background: var(--green); border-color: var(--green); }
-  .check-text { flex: 1; font-size: 15px; }
-  .check-text.striked { text-decoration: line-through; color: var(--muted); }
-  .del-btn { background: none; border: none; color: var(--muted); font-size: 18px; padding: 0 4px; }
-  .guest-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .guest-name { flex: 1; font-size: 16px; }
-  .icon-btn { width: 28px; height: 28px; border-radius: 7px; border: none; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
-  .shop-item { display: flex; align-items: center; gap: 8px; padding: 9px 11px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
-  .price-input { width: 72px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--green); padding: 4px 7px; font-size: 14px; font-family: inherit; outline: none; text-align: right; }
-  .vow-card { border-radius: 16px; padding: 28px; text-align: center; cursor: pointer; transition: all .3s; border: 2px solid var(--border); }
-  .timeline-wrap { position: relative; padding-left: 22px; }
-  .timeline-line { position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--border); }
-  .tl-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; position: relative; }
-  .tl-dot { position: absolute; left: -18px; top: 11px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg); }
-  .tl-card { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
-  .tl-time { font-family: 'Cinzel', serif; color: var(--gold); font-size: 14px; margin-bottom: 2px; }
-  .tl-text { font-size: 16px; }
-  .inp { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--cream); padding: 8px 12px; font-size: 15px; outline: none; width: 100%; }
-  .inp:focus { border-color: var(--gold); }
-  .inp-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-  .btn { background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.4); border-radius: 8px; padding: 8px 16px; font-size: 14px; font-weight: 600; font-family: 'Cinzel', serif; letter-spacing: 0.3px; transition: all .2s; }
-  .btn.sm { padding: 5px 12px; font-size: 12px; }
-  .btn.rose { background: rgba(201,122,138,.15); color: var(--rose); border-color: rgba(201,122,138,.4); }
-  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
-  .filter-btn { background: rgba(122,106,85,.12); color: var(--muted); border: 1px solid rgba(122,106,85,.3); border-radius: 20px; padding: 4px 13px; font-size: 12px; font-family: inherit; transition: all .2s; }
-  .filter-btn.active { background: rgba(201,168,76,.2); color: var(--gold); border-color: rgba(201,168,76,.5); }
-  .urgent-alert { background: rgba(201,112,112,.1); border: 1px solid rgba(201,112,112,.3); border-radius: 12px; padding: 14px; margin-bottom: 20px; }
-  .urgent-title { color: var(--red); font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1px; margin-bottom: 8px; }
-  .urgent-item { font-size: 14px; padding: 3px 0; border-bottom: 1px solid rgba(201,112,112,.15); }
-  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
-  .tip-item { font-size: 14px; color: var(--cream); padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
-  #loading { display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; gap: 12px; }
-  #loading h2 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 24px; }
-  #loading p { color: var(--muted); font-style: italic; }
+:root {
+  --bg: #fff8f2; --surface: #ffffff; --card: #ffffff;
+  --border: #ede0d4; --border2: #f5ebe2;
+  --gold: #b8892a; --gold-bg: #fdf3e3;
+  --rose: #c05878; --rose-bg: #fdf0f4;
+  --text: #2d1f14; --text2: #6b4f3a; --muted: #a0836a;
+  --green: #2e8b6a; --green-bg: #edf7f3;
+  --red: #c0392b; --red-bg: #fdf0ee;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow2: 0 1px 4px rgba(0,0,0,0.05);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; padding-bottom: 90px; }
+::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: var(--border); }
+input, textarea, select, button { font-family: 'Nunito', sans-serif; }
+button { cursor: pointer; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.fade { animation: fadeIn .3s ease; }
+#header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow2); }
+#header-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 20px; font-weight: 700; }
+#save-status { font-size: 12px; font-weight: 700; }
+#nav { display: flex; background: var(--surface); border-bottom: 2px solid var(--border); overflow-x: auto; scrollbar-width: none; position: sticky; top: 53px; z-index: 99; }
+#nav::-webkit-scrollbar { display: none; }
+.nav-btn { flex: 1; min-width: 68px; padding: 10px 4px 8px; background: none; border: none; border-bottom: 3px solid transparent; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.3px; transition: all .2s; white-space: nowrap; margin-bottom: -2px; }
+.nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-icon { font-size: 18px; margin-bottom: 2px; display: block; }
+#content { padding: 20px 15px; max-width: 720px; margin: 0 auto; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: var(--shadow2); }
+.card-gold { border-top: 3px solid var(--gold); }
+.card-rose { border-top: 3px solid var(--rose); }
+.stat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 16px; }
+.stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; box-shadow: var(--shadow2); }
+.stat-val { font-size: 26px; font-weight: 800; line-height: 1; }
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 3px; font-weight: 700; }
+.countdown { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.cd-box { text-align: center; background: var(--gold-bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; min-width: 62px; }
+.cd-val { font-size: 28px; font-weight: 800; color: var(--gold); line-height: 1; }
+.cd-lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; font-weight: 700; }
+.badge { display: inline-block; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+.prog-wrap { background: var(--border); border-radius: 4px; height: 8px; margin: 6px 0 16px; }
+.prog-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--rose)); transition: width .6s; }
+.check-item { display: flex; align-items: center; gap: 10px; padding: 11px 13px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; box-shadow: var(--shadow2); }
+.check-item.done { opacity: .5; background: var(--bg); }
+.check-item.urgent { border-left: 4px solid var(--red); }
+.check-item.normal { border-left: 4px solid var(--border2); }
+.check-box { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--border); background: transparent; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+.check-box.checked { background: var(--green); border-color: var(--green); }
+.check-text { flex: 1; font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+.check-text.done-text { text-decoration: line-through; color: var(--muted); }
+.del-btn { background: none; border: none; color: var(--muted); font-size: 20px; padding: 0 2px; line-height: 1; }
+.edit-btn { background: none; border: none; color: var(--muted); font-size: 16px; padding: 0 2px; line-height: 1; }
+.guest-row { display: flex; align-items: center; gap: 7px; padding: 9px 0; border-bottom: 1px solid var(--border2); }
+.guest-name { flex: 1; font-size: 15px; font-weight: 700; }
+.icon-btn { width: 30px; height: 30px; border-radius: 8px; border: none; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all .15s; font-weight: 700; }
+.shop-item { display: flex; align-items: center; gap: 8px; padding: 11px 13px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; box-shadow: var(--shadow2); }
+.price-input { width: 80px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--green); padding: 5px 8px; font-size: 14px; font-family: inherit; outline: none; text-align: right; font-weight: 700; }
+.vow-card { border-radius: 16px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all .3s; border: 2px solid var(--border); background: var(--card); box-shadow: var(--shadow2); }
+.timeline-wrap { position: relative; padding-left: 24px; }
+.timeline-line { position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); border-radius: 2px; }
+.tl-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; position: relative; }
+.tl-dot { position: absolute; left: -19px; top: 14px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--bg); }
+.tl-card { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 11px 13px; box-shadow: var(--shadow2); }
+.tl-time { font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 2px; }
+.tl-text { font-size: 15px; font-weight: 600; color: var(--text); }
+.tl-actions { display: flex; gap: 6px; margin-top: 8px; }
+.inp { background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); padding: 9px 13px; font-size: 15px; outline: none; width: 100%; font-weight: 600; transition: border-color .2s; }
+.inp:focus { border-color: var(--gold); }
+.inp-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.btn { background: var(--gold-bg); color: var(--gold); border: 1.5px solid var(--gold); border-radius: 10px; padding: 9px 16px; font-size: 14px; font-weight: 700; transition: all .2s; white-space: nowrap; }
+.btn:active { background: var(--gold); color: #fff; }
+.btn.sm { padding: 6px 13px; font-size: 13px; }
+.btn.rose { background: var(--rose-bg); color: var(--rose); border-color: var(--rose); }
+.btn.green { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+.btn.ghost { background: transparent; color: var(--muted); border-color: var(--border); }
+.filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+.filter-btn { background: var(--bg); color: var(--muted); border: 1.5px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 13px; font-family: inherit; font-weight: 700; transition: all .2s; }
+.filter-btn.active { background: var(--gold-bg); color: var(--gold); border-color: var(--gold); }
+.urgent-alert { background: var(--red-bg); border: 1px solid #f5c6c2; border-radius: 14px; padding: 14px; margin-bottom: 16px; }
+.urgent-title { color: var(--red); font-size: 13px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; }
+.urgent-item { font-size: 14px; font-weight: 600; color: var(--text); padding: 4px 0; border-bottom: 1px solid #f5c6c222; }
+.two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 12px; }
+.tip-item { font-size: 14px; font-weight: 600; color: var(--text2); padding: 7px 0; border-bottom: 1px solid var(--border2); display: flex; gap: 8px; }
+#loading { display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; gap: 12px; background: var(--bg); }
+#loading h2 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 26px; }
+#loading p { color: var(--muted); font-size: 15px; font-weight: 600; }
 </style>
 </head>
 <body>
 <div id="loading"><h2>Bruno & Stephanie</h2><p>Carregando... 💍</p></div>
 <div id="app" style="display:none">
-  <div id="header"><span id="header-title">B & S ♥</span><span id="save-status" style="color:var(--green)">✓ Salvo</span></div>
+  <div id="header"><span id="header-title">B & S 💍</span><span id="save-status" style="color:var(--green)">✓ Salvo</span></div>
   <div id="nav"></div>
   <div id="content"></div>
 </div>
@@ -104,8 +116,8 @@ const firebaseConfig = {
   appId: "1:975889260242:web:7c0f373febe7488bd8570b"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
 const DOC = doc(db, "wedding", "data");
 const WEDDING_DATE = new Date("2026-04-08T11:00:00");
 
@@ -184,25 +196,22 @@ let D = JSON.parse(JSON.stringify(INITIAL));
 let saveTimer = null;
 let currentTab = "home";
 let checkFilter = "all";
+let editingTl = null;
 
 function loadData() {
   onSnapshot(DOC, (snap) => {
-    if (snap.exists()) {
-      D = Object.assign({}, INITIAL, snap.data());
-    } else {
-      setDoc(DOC, D);
-    }
+    if (snap.exists()) D = Object.assign({}, INITIAL, snap.data());
+    else setDoc(DOC, D);
     const loading = document.getElementById("loading");
     const app = document.getElementById("app");
     if (loading.style.display !== "none") {
       loading.style.display = "none";
       app.style.display = "block";
-      renderNav();
-      startCountdown();
+      renderNav(); startCountdown();
     }
     renderTab();
-  }, (e) => {
-    document.getElementById("loading").innerHTML = '<h2 style="color:var(--red)">Erro de conexão</h2><p style="color:var(--muted);margin-top:8px">Verifique sua internet</p>';
+  }, () => {
+    document.getElementById("loading").innerHTML = '<h2 style="color:var(--red)">Erro de conexão</h2><p>Verifique sua internet</p>';
   });
 }
 
@@ -217,9 +226,9 @@ function scheduleSave() {
 
 function setSaveStatus(s) {
   const el = document.getElementById("save-status");
-  if (s==="saving") { el.style.color="var(--gold)"; el.textContent="Salvando..."; }
-  else if (s==="ok") { el.style.color="var(--green)"; el.textContent="✓ Salvo"; }
-  else { el.style.color="var(--red)"; el.textContent="Erro ao salvar"; }
+  if(s==="saving"){el.style.color="var(--gold)";el.textContent="Salvando...";}
+  else if(s==="ok"){el.style.color="var(--green)";el.textContent="✓ Salvo";}
+  else{el.style.color="var(--red)";el.textContent="Erro ao salvar";}
 }
 
 const uid = () => Math.random().toString(36).slice(2,9);
@@ -228,10 +237,10 @@ function startCountdown() {
   function tick() {
     const diff = WEDDING_DATE - new Date();
     const box = document.getElementById("countdown");
-    if (!box) return;
-    if (diff <= 0) { box.innerHTML='<span style="color:var(--gold);font-family:Cinzel,serif;font-size:20px">💍 Hoje é o grande dia!</span>'; return; }
-    const d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000),
-          m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+    if(!box) return;
+    if(diff<=0){box.innerHTML='<span style="color:var(--gold);font-size:20px;font-weight:800">💍 Hoje é o grande dia!</span>';return;}
+    const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),
+          m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
     box.innerHTML=[[d,"dias"],[h,"horas"],[m,"min"],[s,"seg"]].map(([v,l])=>
       `<div class="cd-box"><div class="cd-val">${String(v).padStart(2,"0")}</div><div class="cd-lbl">${l}</div></div>`
     ).join("");
@@ -239,16 +248,21 @@ function startCountdown() {
   tick(); setInterval(tick,1000);
 }
 
-const TABS=[{id:"home",icon:"♥",label:"Início"},{id:"checklist",icon:"✓",label:"Tarefas"},
-  {id:"guests",icon:"👥",label:"Convidados"},{id:"shopping",icon:"🛒",label:"Compras"},
-  {id:"vows",icon:"💍",label:"Votos"},{id:"timeline",icon:"📅",label:"Dia D"}];
+const TABS=[
+  {id:"home",icon:"♥",label:"Início"},
+  {id:"checklist",icon:"✓",label:"Tarefas"},
+  {id:"guests",icon:"👥",label:"Convidados"},
+  {id:"shopping",icon:"🛒",label:"Compras"},
+  {id:"vows",icon:"💍",label:"Votos"},
+  {id:"timeline",icon:"📅",label:"Dia D"},
+];
 
 function renderNav() {
   const nav=document.getElementById("nav"); nav.innerHTML="";
   TABS.forEach(t=>{
     const btn=document.createElement("button");
     btn.className="nav-btn"+(t.id===currentTab?" active":"");
-    btn.innerHTML=`<div class="nav-icon">${t.icon}</div>${t.label}`;
+    btn.innerHTML=`<span class="nav-icon">${t.icon}</span>${t.label}`;
     btn.onclick=()=>{ currentTab=t.id; renderNav(); renderTab(); };
     nav.appendChild(btn);
   });
@@ -264,6 +278,7 @@ function renderTab() {
   else if(currentTab==="vows") renderVows(c);
   else if(currentTab==="timeline") renderTimeline(c);
 }
+
 function renderHome(c) {
   const doneC=D.checklist.filter(i=>i.done).length;
   const urgentLeft=D.checklist.filter(i=>i.urgent&&!i.done).length;
@@ -271,23 +286,23 @@ function renderHome(c) {
   const confirmed=Object.values(D.guestStatuses).filter(s=>s==="confirmed").length;
   const spent=D.shopping.reduce((a,i)=>a+(parseFloat((i.value||"0").replace(",","."))||0),0);
   c.innerHTML=`
-    <div style="text-align:center;margin-bottom:28px">
-      <div style="font-family:Cinzel,serif;font-size:12px;color:var(--muted);letter-spacing:4px;margin-bottom:6px">08 · ABRIL · 2026</div>
-      <h1 style="font-family:Cinzel,serif;font-size:30px;color:var(--gold);font-weight:600;margin-bottom:4px">Bruno & Stephanie</h1>
-      <div style="color:var(--muted);font-size:15px;font-style:italic;margin-bottom:22px">Contagem regressiva</div>
+    <div style="text-align:center;margin-bottom:24px;padding:24px 16px;background:var(--card);border-radius:20px;border:1px solid var(--border);box-shadow:var(--shadow)">
+      <div style="font-size:13px;color:var(--muted);font-weight:700;letter-spacing:3px;margin-bottom:6px">08 · ABRIL · 2026</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);margin-bottom:4px">Bruno & Stephanie</h1>
+      <div style="color:var(--muted);font-size:14px;font-weight:600;margin-bottom:20px">📍 Água Rasa, São Paulo</div>
       <div id="countdown" class="countdown"></div>
     </div>
     <div class="stat-grid">
       <div class="stat-box"><div class="stat-val" style="color:var(--gold)">${doneC}/${D.checklist.length}</div><div class="stat-lbl">Tarefas feitas</div></div>
       <div class="stat-box"><div class="stat-val" style="color:${urgentLeft>0?"var(--red)":"var(--green)"}">${urgentLeft}</div><div class="stat-lbl">Urgentes pendentes</div></div>
       <div class="stat-box"><div class="stat-val" style="color:var(--rose)">${confirmed}/${totalG}</div><div class="stat-lbl">Confirmados</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:18px">R$${spent.toFixed(2).replace(".",",")}</div><div class="stat-lbl">Total em compras</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:20px">R$${spent.toFixed(2).replace(".",",")}</div><div class="stat-lbl">Total em compras</div></div>
     </div>
-    ${urgentLeft>0?`<div class="urgent-alert"><div class="urgent-title">⚠ PENDENTE — ATENÇÃO!</div>${D.checklist.filter(i=>i.urgent&&!i.done).map(i=>`<div class="urgent-item">· ${i.text}</div>`).join("")}</div>`
-    :`<div style="background:rgba(106,184,154,.1);border:1px solid rgba(106,184,154,.3);border-radius:12px;padding:14px;text-align:center;color:var(--green);font-family:Cinzel,serif;font-size:14px">🎉 Tudo urgente resolvido!</div>`}
-    <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center">
-      <div style="font-size:13px;color:var(--muted);font-style:italic">"Onde abundou o pecado, superabundou a graça."</div>
-      <div style="font-size:11px;color:var(--muted);letter-spacing:2px;margin-top:6px">ROMANOS 5:20</div>
+    ${urgentLeft>0?`<div class="urgent-alert"><div class="urgent-title">⚠️ PENDENTE — ATENÇÃO!</div>${D.checklist.filter(i=>i.urgent&&!i.done).map(i=>`<div class="urgent-item">· ${i.text}</div>`).join("")}</div>`
+    :`<div style="background:var(--green-bg);border:1px solid #b2dfcf;border-radius:14px;padding:14px;text-align:center;color:var(--green);font-weight:800;font-size:15px">🎉 Tudo urgente resolvido!</div>`}
+    <div style="margin-top:14px;background:var(--gold-bg);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:15px;color:var(--text2);font-style:italic;font-family:'Playfair Display',serif">"Onde abundou o pecado, superabundou a graça."</div>
+      <div style="font-size:12px;color:var(--muted);font-weight:700;letter-spacing:2px;margin-top:6px">ROMANOS 5:20</div>
     </div>`;
   startCountdown();
 }
@@ -303,11 +318,13 @@ function renderChecklist(c) {
   });
   const wrap=document.createElement("div");
   wrap.innerHTML=`
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-      <span style="color:var(--muted);font-size:13px">Progresso</span>
-      <span style="color:var(--gold);font-family:Cinzel,serif;font-size:13px">${done}/${D.checklist.length}</span>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:16px;box-shadow:var(--shadow2)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:var(--text2);font-size:14px;font-weight:700">Progresso geral</span>
+        <span style="color:var(--gold);font-weight:800;font-size:14px">${done}/${D.checklist.length} — ${pct}%</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
     </div>
-    <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
     <div class="filters" id="filters"></div>
     <div class="inp-row">
       <input id="new-task" class="inp" style="flex:1;min-width:150px" placeholder="Nova tarefa..."/>
@@ -316,7 +333,7 @@ function renderChecklist(c) {
     <div id="task-list"></div>`;
   c.appendChild(wrap);
   const filtersEl=wrap.querySelector("#filters");
-  [["all","Todas"],["urgent","🔥 Urgente"],["pending","Pendentes"],["done","Feitas"]].forEach(([v,l])=>{
+  [["all","Todas"],["urgent","🔥 Urgente"],["pending","Pendentes"],["done","✓ Feitas"]].forEach(([v,l])=>{
     const b=document.createElement("button");
     b.className="filter-btn"+(checkFilter===v?" active":""); b.textContent=l;
     b.onclick=()=>{ checkFilter=v; renderTab(); };
@@ -333,8 +350,8 @@ function renderChecklist(c) {
     const row=document.createElement("div");
     row.className="check-item "+(item.done?"done ":"")+(item.urgent?"urgent":"normal");
     row.innerHTML=`<button class="check-box ${item.done?"checked":""}">${item.done?"✓":""}</button>
-      <span class="check-text ${item.done?"striked":""}">${item.text}</span>
-      <span class="badge" style="background:rgba(122,106,85,.15);color:var(--muted);font-size:10px">${item.cat}</span>
+      <span class="check-text ${item.done?"done-text":""}">${item.text}</span>
+      <span class="badge" style="background:var(--gold-bg);color:var(--gold);font-size:10px;white-space:nowrap">${item.cat}</span>
       <button class="del-btn">×</button>`;
     row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
     row.querySelector(".del-btn").onclick=()=>{ D.checklist=D.checklist.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
@@ -351,67 +368,65 @@ function renderGuests(c) {
   const allInvited=inviteSent===totalG;
   const wrap=document.createElement("div");
   wrap.innerHTML=`
-    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:10px">
-      <div class="stat-box"><div class="stat-val" style="color:var(--gold);font-size:20px">${totalG}</div><div class="stat-lbl">Total</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:20px">${conf}</div><div class="stat-lbl">Confirmados</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--muted);font-size:20px">${totalG-conf-decl}</div><div class="stat-lbl">Pendentes</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--red);font-size:20px">${decl}</div><div class="stat-lbl">Recusaram</div></div>
+    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat-box"><div class="stat-val" style="color:var(--gold);font-size:22px">${totalG}</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:22px">${conf}</div><div class="stat-lbl">Confirm.</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--muted);font-size:22px">${totalG-conf-decl}</div><div class="stat-lbl">Pendentes</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--red);font-size:22px">${decl}</div><div class="stat-lbl">Recusaram</div></div>
     </div>
-    <div style="background:${allInvited?"rgba(106,184,154,.12)":"var(--card)"};border:1px solid ${allInvited?"rgba(106,184,154,.4)":"var(--border)"};border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+    <div style="background:${allInvited?"var(--green-bg)":"var(--card)"};border:1px solid ${allInvited?"#b2dfcf":"var(--border)"};border-radius:14px;padding:13px 15px;margin-bottom:16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow2)">
       <div style="flex:1">
-        <div style="font-family:Cinzel,serif;font-size:12px;color:${allInvited?"var(--green)":"var(--gold)"};letter-spacing:1px;margin-bottom:5px">${allInvited?"✅ TODOS OS CONVITES ENVIADOS!":"✉ CONVITES ENVIADOS"}</div>
-        <div style="background:var(--border);border-radius:4px;height:6px">
+        <div style="font-size:13px;font-weight:800;color:${allInvited?"var(--green)":"var(--gold)"};margin-bottom:6px">${allInvited?"✅ TODOS OS CONVITES ENVIADOS!":"✉️ CONVITES ENVIADOS"}</div>
+        <div style="background:var(--border);border-radius:4px;height:7px">
           <div style="width:${totalG>0?Math.round(inviteSent/totalG*100):0}%;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--green));transition:width .5s"></div>
         </div>
       </div>
-      <div style="font-family:Cinzel,serif;color:${allInvited?"var(--green)":"var(--gold)"};font-size:20px;font-weight:600">${inviteSent}/${totalG}</div>
+      <div style="font-size:22px;font-weight:800;color:${allInvited?"var(--green)":"var(--gold)"}">${inviteSent}/${totalG}</div>
     </div>
     <div class="two-col" id="guest-cols"></div>`;
   c.appendChild(wrap);
   [["bruno","🤵 Lado do Bruno","gold"],["stephanie","👰 Lado da Stephanie","rose"]].forEach(([side,label,color])=>{
     const sideInvited=D.guests[side].filter(g=>g.invite).length;
     const card=document.createElement("div");
-    card.className="card card-accent-"+color;
+    card.className="card card-"+color;
     card.innerHTML=`
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <span style="font-family:Cinzel,serif;color:var(--${color});font-size:15px">${label}</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-weight:800;font-size:15px;color:var(--${color})">${label}</span>
         <div style="display:flex;gap:6px;align-items:center">
-          <span style="font-size:11px;color:var(--muted)">✉ ${sideInvited}/${D.guests[side].length}</span>
-          <span class="badge" style="background:rgba(201,168,76,.15);color:var(--${color})">${D.guests[side].length}</span>
+          <span style="font-size:12px;color:var(--muted);font-weight:700">✉️ ${sideInvited}/${D.guests[side].length}</span>
+          <span class="badge" style="background:var(--${color}-bg);color:var(--${color})">${D.guests[side].length}</span>
         </div>
       </div>
       <div id="glist-${side}"></div>
       <div class="inp-row" style="margin-top:12px;margin-bottom:0">
-        <input id="gnew-${side}" class="inp" style="flex:1" placeholder="Nome..."/>
+        <input id="gnew-${side}" class="inp" style="flex:1" placeholder="Nome do convidado..."/>
         <button class="btn sm ${color==="rose"?"rose":""}" id="gadd-${side}">+</button>
       </div>`;
     wrap.querySelector("#guest-cols").appendChild(card);
     const list=card.querySelector(`#glist-${side}`);
     D.guests[side].forEach(g=>{
       const st=D.guestStatuses[g.id]||"pending";
-      const stColor=st==="confirmed"?"var(--green)":st==="declined"?"var(--red)":"var(--muted)";
-      const stLabel=st==="confirmed"?"✓ Conf":st==="declined"?"✗ Recusou":"· Pendente";
       const row=document.createElement("div"); row.className="guest-row";
       row.innerHTML=`<span class="guest-name">${g.name}</span>
-        <button class="icon-btn" title="Convite enviado" style="background:${g.invite?"var(--gold)":"var(--border)"};font-size:12px" data-id="${g.id}" data-action="invite">✉</button>
-        <button class="icon-btn" style="background:${st==="confirmed"?"var(--green)":"var(--border)"}" data-id="${g.id}" data-action="confirmed">✓</button>
-        <button class="icon-btn" style="background:${st==="declined"?"var(--red)":"var(--border)"}" data-id="${g.id}" data-action="declined">✗</button>
-        <button class="icon-btn" style="background:var(--border);color:var(--muted)" data-id="${g.id}" data-action="delete">×</button>`;
+        <button class="icon-btn" title="Convite enviado" style="background:${g.invite?"var(--gold)":"#e8ddd4"};font-size:13px" data-id="${g.id}" data-action="invite">✉</button>
+        <button class="icon-btn" title="Confirmado" style="background:${st==="confirmed"?"var(--green)":"#e8ddd4"}" data-id="${g.id}" data-action="confirmed">✓</button>
+        <button class="icon-btn" title="Recusou" style="background:${st==="declined"?"var(--red)":"#e8ddd4"}" data-id="${g.id}" data-action="declined">✗</button>
+        <button class="icon-btn" style="background:#e8ddd4;color:var(--muted)" data-id="${g.id}" data-action="delete">×</button>`;
       row.querySelectorAll("[data-action]").forEach(btn=>{
         btn.onclick=()=>{
-          const id=btn.dataset.id, action=btn.dataset.action;
-          if(action==="delete"){ D.guests[side]=D.guests[side].filter(x=>x.id!==id); delete D.guestStatuses[id]; }
-          else if(action==="invite"){ const gi=D.guests[side].findIndex(x=>x.id===id); if(gi>=0) D.guests[side][gi].invite=!D.guests[side][gi].invite; }
-          else { D.guestStatuses[id]=D.guestStatuses[id]===action?"pending":action; }
+          const id=btn.dataset.id,action=btn.dataset.action;
+          if(action==="delete"){D.guests[side]=D.guests[side].filter(x=>x.id!==id);delete D.guestStatuses[id];}
+          else if(action==="invite"){const gi=D.guests[side].findIndex(x=>x.id===id);if(gi>=0)D.guests[side][gi].invite=!D.guests[side][gi].invite;}
+          else{D.guestStatuses[id]=D.guestStatuses[id]===action?"pending":action;}
           scheduleSave(); renderTab();
         };
       });
       list.appendChild(row);
     });
     card.querySelector(`#gadd-${side}`).onclick=()=>{
-      const inp=card.querySelector(`#gnew-${side}`); const name=inp.value.trim();
+      const inp=card.querySelector(`#gnew-${side}`);const name=inp.value.trim();
       if(!name) return;
-      D.guests[side].push({id:uid(),name,invite:false}); inp.value=""; scheduleSave(); renderTab();
+      D.guests[side].push({id:uid(),name,invite:false});inp.value="";scheduleSave();renderTab();
     };
   });
 }
@@ -421,12 +436,9 @@ function renderShopping(c) {
   const bought=D.shopping.filter(i=>i.done).length;
   const wrap=document.createElement("div");
   wrap.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <div style="color:var(--muted);font-size:14px">${bought}/${D.shopping.length} itens comprados</div>
-      <div style="text-align:right">
-        <div style="font-family:Cinzel,serif;color:var(--green);font-size:22px">R$${total.toFixed(2).replace(".",",")}</div>
-        <div style="font-size:11px;color:var(--muted)">total estimado</div>
-      </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow2)">
+      <div><div style="font-size:14px;font-weight:700;color:var(--text2)">${bought}/${D.shopping.length} comprados</div><div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px">itens da lista</div></div>
+      <div style="text-align:right"><div style="font-size:24px;font-weight:800;color:var(--green)">R$${total.toFixed(2).replace(".",",")}</div><div style="font-size:12px;color:var(--muted);font-weight:600">total estimado</div></div>
     </div>
     <div class="inp-row">
       <input id="sh-new" class="inp" style="flex:2;min-width:130px" placeholder="Item..."/>
@@ -440,22 +452,22 @@ function renderShopping(c) {
     const cat=wrap.querySelector("#sh-cat").value.trim()||"Outros";
     if(!txt) return;
     D.shopping.push({id:uid(),text:txt,cat,value:"",done:false});
-    wrap.querySelector("#sh-new").value=""; wrap.querySelector("#sh-cat").value="";
-    scheduleSave(); renderTab();
+    wrap.querySelector("#sh-new").value="";wrap.querySelector("#sh-cat").value="";
+    scheduleSave();renderTab();
   };
   const list=wrap.querySelector("#sh-list");
   D.shopping.forEach(item=>{
-    const row=document.createElement("div"); row.className="shop-item";
-    row.style.opacity=item.done?"0.55":"1";
+    const row=document.createElement("div");row.className="shop-item";
+    row.style.opacity=item.done?"0.5":"1";
     row.innerHTML=`<button class="check-box ${item.done?"checked":""}">${item.done?"✓":""}</button>
-      <span style="flex:1;font-size:15px;${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</span>
-      <span class="badge" style="background:rgba(122,106,85,.15);color:var(--muted);font-size:10px">${item.cat}</span>
-      <span style="color:var(--muted);font-size:13px">R$</span>
+      <span style="flex:1;font-size:15px;font-weight:600;${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</span>
+      <span class="badge" style="background:var(--gold-bg);color:var(--gold);font-size:10px">${item.cat}</span>
+      <span style="color:var(--muted);font-size:13px;font-weight:700">R$</span>
       <input class="price-input" value="${item.value}" placeholder="0,00"/>
       <button class="del-btn">×</button>`;
-    row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
-    row.querySelector(".price-input").oninput=(e)=>{ item.value=e.target.value; scheduleSave(); };
-    row.querySelector(".del-btn").onclick=()=>{ D.shopping=D.shopping.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+    row.querySelector(".check-box").onclick=()=>{item.done=!item.done;scheduleSave();renderTab();};
+    row.querySelector(".price-input").oninput=(e)=>{item.value=e.target.value;scheduleSave();};
+    row.querySelector(".del-btn").onclick=()=>{D.shopping=D.shopping.filter(i=>i.id!==item.id);scheduleSave();renderTab();};
     list.appendChild(row);
   });
 }
@@ -463,63 +475,100 @@ function renderShopping(c) {
 function renderVows(c) {
   const wrap=document.createElement("div");
   wrap.innerHTML=`
-    <p style="color:var(--muted);font-style:italic;text-align:center;margin-bottom:24px;font-size:16px;line-height:1.8">
-      "Onde abundou o pecado,<br/>superabundou a graça."<br/>
-      <span style="font-size:12px;letter-spacing:2px">ROMANOS 5:20</span>
-    </p>
+    <div style="background:var(--gold-bg);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;margin-bottom:20px">
+      <div style="font-size:17px;color:var(--text2);font-style:italic;font-family:'Playfair Display',serif;line-height:1.7">"Onde abundou o pecado,<br/>superabundou a graça."</div>
+      <div style="font-size:12px;color:var(--muted);font-weight:700;letter-spacing:2px;margin-top:8px">ROMANOS 5:20</div>
+    </div>
     <div class="two-col" style="margin-bottom:20px">
       ${[["bruno","💍 Votos do Bruno","gold"],["stephanie","💍 Votos da Stephanie","rose"]].map(([who,label,color])=>`
-        <div class="vow-card" id="vow-${who}" style="background:${D.vows[who]?"rgba(201,168,76,.1)":"var(--card)"};border-color:${D.vows[who]?"var(--"+color+")":"var(--border)"}">
+        <div class="vow-card" id="vow-${who}" style="background:${D.vows[who]?"var(--"+color+"-bg)":"var(--card)"};border-color:${D.vows[who]?"var(--"+color+")":"var(--border)"}">
           <div style="font-size:48px;margin-bottom:10px">${D.vows[who]?"✅":"📝"}</div>
-          <div style="font-family:Cinzel,serif;color:var(--${color});font-size:16px;margin-bottom:8px">${label}</div>
-          <div style="font-size:15px;color:${D.vows[who]?"var(--"+color+")":"var(--muted)"}">${D.vows[who]?"Votos preparados! 🎉":"Toque para marcar como feito"}</div>
+          <div style="font-weight:800;font-size:16px;color:var(--${color});margin-bottom:8px">${label}</div>
+          <div style="font-size:14px;font-weight:600;color:${D.vows[who]?"var(--"+color+")":"var(--muted)"}">${D.vows[who]?"Votos preparados! 🎉":"Toque para marcar como feito"}</div>
         </div>`).join("")}
     </div>
     <div class="card">
-      <div style="color:var(--gold);font-family:Cinzel,serif;font-size:12px;letter-spacing:1px;margin-bottom:12px">💡 DICAS PARA OS VOTOS</div>
-      ${["Fale do primeiro momento que percebeu que era especial","Mencione uma qualidade que admira no outro","Faça uma promessa concreta e verdadeira","Pode ser curto — o que importa é ser sincero","Pratique em voz alta pelo menos uma vez antes","Leve escrito no dia, não confie só na memória!"].map(t=>`<div class="tip-item"><span style="color:var(--gold)">·</span>${t}</div>`).join("")}
+      <div style="color:var(--gold);font-size:13px;font-weight:800;letter-spacing:0.5px;margin-bottom:12px">💡 DICAS PARA OS VOTOS</div>
+      ${["Fale do primeiro momento que percebeu que era especial","Mencione uma qualidade que admira no outro","Faça uma promessa concreta e verdadeira","Pode ser curto — o que importa é ser sincero","Pratique em voz alta pelo menos uma vez antes","Leve escrito no dia — emoção prega peças!"].map(t=>`<div class="tip-item"><span style="color:var(--gold);font-weight:800">·</span>${t}</div>`).join("")}
     </div>`;
   c.appendChild(wrap);
   ["bruno","stephanie"].forEach(who=>{
-    wrap.querySelector(`#vow-${who}`).onclick=()=>{ D.vows[who]=!D.vows[who]; scheduleSave(); renderTab(); };
+    wrap.querySelector(`#vow-${who}`).onclick=()=>{D.vows[who]=!D.vows[who];scheduleSave();renderTab();};
   });
 }
-
-function renderTimeline(c) {
+  function renderTimeline(c) {
   const done=D.timeline.filter(i=>i.done).length;
   const wrap=document.createElement("div");
   wrap.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <span style="color:var(--muted);font-size:14px">08/04/2026 · Água Rasa, SP</span>
-      <span class="badge" style="background:rgba(201,168,76,.15);color:var(--gold)">${done}/${D.timeline.length}</span>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 15px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow2)">
+      <div>
+        <div style="font-weight:800;font-size:15px;color:var(--text)">📅 08/04/2026</div>
+        <div style="font-size:13px;color:var(--muted);font-weight:600">Água Rasa, São Paulo</div>
+      </div>
+      <span class="badge" style="background:var(--gold-bg);color:var(--gold);font-size:13px">${done}/${D.timeline.length} feitos</span>
     </div>
     <div class="inp-row">
-      <input type="time" id="tl-time" class="inp" style="width:110px;flex:none"/>
-      <input id="tl-text" class="inp" style="flex:1;min-width:140px" placeholder="Descrição..."/>
+      <input type="time" id="tl-time" class="inp" style="width:120px;flex:none"/>
+      <input id="tl-text" class="inp" style="flex:1;min-width:130px" placeholder="Descrição..."/>
       <button class="btn sm" id="tl-add">+ Adicionar</button>
     </div>
     <div class="timeline-wrap"><div class="timeline-line"></div><div id="tl-list"></div></div>`;
   c.appendChild(wrap);
+
   wrap.querySelector("#tl-add").onclick=()=>{
-    const t=wrap.querySelector("#tl-time").value, txt=wrap.querySelector("#tl-text").value.trim();
+    const t=wrap.querySelector("#tl-time").value;
+    const txt=wrap.querySelector("#tl-text").value.trim();
     if(!t||!txt) return;
     D.timeline.push({id:uid(),time:t,text:txt,done:false});
     D.timeline.sort((a,b)=>a.time.localeCompare(b.time));
-    wrap.querySelector("#tl-time").value=""; wrap.querySelector("#tl-text").value="";
+    wrap.querySelector("#tl-time").value="";
+    wrap.querySelector("#tl-text").value="";
     scheduleSave(); renderTab();
   };
+
   const list=wrap.querySelector("#tl-list");
   D.timeline.forEach(item=>{
     const row=document.createElement("div"); row.className="tl-item";
-    row.innerHTML=`<div class="tl-dot" style="background:${item.done?"var(--green)":"var(--gold)"}"></div>
-      <button class="check-box ${item.done?"checked":""}" style="margin-top:2px;flex-shrink:0">${item.done?"✓":""}</button>
-      <div class="tl-card" style="opacity:${item.done?.6:1}">
-        <div class="tl-time">${item.time}</div>
-        <div class="tl-text" style="${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</div>
-      </div>
-      <button class="del-btn" style="margin-top:8px">×</button>`;
-    row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
-    row.querySelector(".del-btn").onclick=()=>{ D.timeline=D.timeline.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+
+    if(editingTl===item.id) {
+      // MODO EDIÇÃO
+      row.innerHTML=`
+        <div class="tl-dot" style="background:var(--gold)"></div>
+        <div class="tl-card" style="flex:1;border-color:var(--gold)">
+          <div class="inp-row" style="margin-bottom:8px">
+            <input type="time" class="inp edit-time" value="${item.time}" style="width:120px;flex:none"/>
+            <input class="inp edit-text" value="${item.text}" style="flex:1"/>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn sm green save-edit">✓ Salvar</button>
+            <button class="btn sm ghost cancel-edit">Cancelar</button>
+          </div>
+        </div>`;
+      row.querySelector(".save-edit").onclick=()=>{
+        const newTime=row.querySelector(".edit-time").value;
+        const newText=row.querySelector(".edit-text").value.trim();
+        if(newTime&&newText){ item.time=newTime; item.text=newText; }
+        D.timeline.sort((a,b)=>a.time.localeCompare(b.time));
+        editingTl=null; scheduleSave(); renderTab();
+      };
+      row.querySelector(".cancel-edit").onclick=()=>{ editingTl=null; renderTab(); };
+    } else {
+      // MODO NORMAL
+      row.innerHTML=`
+        <div class="tl-dot" style="background:${item.done?"var(--green)":"var(--gold)"}"></div>
+        <button class="check-box ${item.done?"checked":""}" style="margin-top:2px;flex-shrink:0">${item.done?"✓":""}</button>
+        <div class="tl-card" style="opacity:${item.done?.6:1}">
+          <div class="tl-time">${item.time}</div>
+          <div class="tl-text" style="${item.done?"text-decoration:line-through;color:var(--muted)":""}">${item.text}</div>
+          <div class="tl-actions">
+            <button class="btn sm ghost edit-btn" style="font-size:12px;padding:4px 10px">✏️ Editar</button>
+            <button class="btn sm ghost del-tl" style="font-size:12px;padding:4px 10px;color:var(--red);border-color:var(--red)">🗑 Remover</button>
+          </div>
+        </div>`;
+      row.querySelector(".check-box").onclick=()=>{ item.done=!item.done; scheduleSave(); renderTab(); };
+      row.querySelector(".edit-btn").onclick=()=>{ editingTl=item.id; renderTab(); };
+      row.querySelector(".del-tl").onclick=()=>{ D.timeline=D.timeline.filter(i=>i.id!==item.id); scheduleSave(); renderTab(); };
+    }
     list.appendChild(row);
   });
 }
