@@ -200,7 +200,7 @@ let editingTl = null;
 
 function loadData() {
   onSnapshot(DOC, (snap) => {
-    if (snap.exists()) D = Object.assign({}, INITIAL, snap.data());
+    if (snap.exists()) D = snap.data();
     else setDoc(DOC, D);
     const loading = document.getElementById("loading");
     const app = document.getElementById("app");
